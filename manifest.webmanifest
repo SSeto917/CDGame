@@ -1,0 +1,26 @@
+{
+  "name": "Focus Command 倒數工具",
+  "short_name": "Focus Command",
+  "description": "任務目標、專注倒數、水果貓收集與情報募集工具。",
+  "lang": "zh-Hant",
+  "start_url": "./task-focus-timer.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#091116",
+  "theme_color": "#101820",
+  "icons": [
+    {
+      "src": "./pwa-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./pwa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

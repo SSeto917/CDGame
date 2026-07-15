@@ -1,7 +1,14 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101820">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101820">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Focus Command">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="./pwa-icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
   <title>FOCUS COMMAND</title>
   <style>
     :root{--cyan:#00b9ed;--cyan2:#18dcff;--orange:#ff5b21;--ink:#11181e;--paper:#f2f4f1;--muted:#a8b7be;--shadow:0 18px 44px rgba(0,0,0,.42)}
@@ -130,6 +137,19 @@
     /* 右側屬性面板不顯示大型角色預覽圖 */
     #personnelScreen .detail-portrait{display:none!important}
   </style>
+  <style>
+    html{height:100%;height:100dvh;background:#091116;overscroll-behavior:none}
+    body{min-height:100%;min-height:100dvh;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+    button,input{touch-action:manipulation}
+    @supports(padding:max(0px)){
+      .screen{padding-top:env(safe-area-inset-top);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left)}
+    }
+    @media(max-width:780px){
+      .screen{min-height:100dvh}
+      .home-menu,.dialogue,.bottom-news{max-width:100%}
+      input,button{font-size:max(16px,1em)}
+    }
+  </style>
 </head>
 <body>
   <div class="backdrop"></div><div class="noise"></div>
@@ -225,6 +245,11 @@
       document.addEventListener('keydown',e=>{const away=[terminal,missionScreen,warehouseScreen,personnelScreen,intelScreen].some(s=>!s.classList.contains('hidden'));if(e.code==='Escape'&&away){if($('#scoutResults').classList.contains('show'))$('#scoutResults').classList.remove('show');else showHome()}if(e.code==='Space'&&!terminal.classList.contains('hidden')&&document.activeElement!==objective){e.preventDefault();state.running?pause():start()}});document.addEventListener('visibilitychange',()=>{if(!document.hidden){sync();render()}});
       function wallClock(){const n=new Date();$('#homeClock').textContent=n.toLocaleTimeString('zh-TW',{hour12:false});$('#homeDate').textContent=n.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'})}wallClock();setInterval(wallClock,1000);render();renderMissions();renderInventory();renderPersonnel();renderScout();if(location.hash==='#terminal')showTerminal();if(location.hash==='#missions')showMissions();if(location.hash==='#warehouse')showWarehouse();if(location.hash==='#personnel')showPersonnel();if(location.hash==='#intel')showIntel();if(state.running)ticker();
     })();
+  </script>
+  <script>
+    if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+      addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    }
   </script>
 </body>
 </html>
